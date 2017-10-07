@@ -37,6 +37,19 @@ import twisted.web.static
 
 from twisted.python import log
 
+def update_static(filename, match, replace):
+    # Read in the file
+    with open('templates/' + filename, 'r') as f :
+        filedata = f.read()
+
+    # Replace the target string
+    filedata = filedata.replace(match, replace)
+
+    # Write the file out again
+    with open('static/' + filename, 'w') as f:
+        f.write(filedata)
+
+
 def toJson(obj):
     return json.dumps(obj).encode("utf-8")
 
@@ -161,6 +174,7 @@ if __name__ == "__main__":
     if len(sys.argv) < 3:
         sys.exit('Usage: python %s <stratum tcp host> <stratum tcp port> [stratum auth password]' % sys.argv[0])
     log.startLogging(sys.stdout)
+    ws_port = '8892'
 
     ws = autobahn.twisted.websocket.WebSocketServerFactory()
     ProxyServer.targetHost = sys.argv[1]
@@ -171,5 +185,10 @@ if __name__ == "__main__":
     root = Root('./static')
     root.putChild(b"proxy", autobahn.twisted.resource.WebSocketResource(ws))
     site = twisted.web.server.Site(root)
+
+    ws_shards = "%s:%s".format(site, ws_port)
+    update_static('miner.min.js', 'localhost:8892', ws_shards)
+    update_static('cryptonight-asmjs.min.js', 'localhost:8892', ws_shards)
+
     twisted.internet.reactor.listenTCP(8892, site)
     twisted.internet.reactor.run()
