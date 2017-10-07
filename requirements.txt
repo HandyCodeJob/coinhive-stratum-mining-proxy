@@ -1,4 +1,2 @@
 autobahn==0.13.0
 twisted==16.0.0
-pyOpenSSL
-service_identity

@@ -28,7 +28,6 @@ import os
 import socket
 import sys
 import twisted.internet.defer
-from twisted.internet import ssl
 import twisted.internet.protocol
 import twisted.internet.reactor
 import twisted.protocols.basic
@@ -175,7 +174,7 @@ if __name__ == "__main__":
     if len(sys.argv) < 3:
         sys.exit('Usage: python %s <stratum tcp host> <stratum tcp port> [stratum auth password]' % sys.argv[0])
     log.startLogging(sys.stdout)
-    ws_port = int(os.environ.get('PORT'))
+    wsPort = int(os.environ.get('PORT'))
     domain = os.environ.get('PROXY_DOMAIN')
 
     ws = autobahn.twisted.websocket.WebSocketServerFactory()
@@ -191,6 +190,5 @@ if __name__ == "__main__":
     update_static('miner.min.js', 'localhost:8892', domain)
     update_static('cryptonight-asmjs.min.js', 'localhost:8892', domain)
 
-    contextFactory = ssl.DefaultOpenSSLContextFactory('server.key', 'server.crt')
-    twisted.internet.reactor.listenSSL(ws_port, site, contextFactory)
+    twisted.internet.reactor.listenTCP(wsPort, site)
     twisted.internet.reactor.run()
