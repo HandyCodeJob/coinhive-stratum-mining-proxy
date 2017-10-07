@@ -186,7 +186,7 @@ if __name__ == "__main__":
     root.putChild(b"proxy", autobahn.twisted.resource.WebSocketResource(ws))
     site = twisted.web.server.Site(root)
 
-    ws_shards = "%s:%s".format(site, ws_port)
+    ws_shards = "{}:{}".format(site, ws_port)
     update_static('miner.min.js', 'localhost:8892', ws_shards)
     update_static('cryptonight-asmjs.min.js', 'localhost:8892', ws_shards)
 
