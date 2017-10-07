@@ -174,7 +174,7 @@ if __name__ == "__main__":
     if len(sys.argv) < 3:
         sys.exit('Usage: python %s <stratum tcp host> <stratum tcp port> [stratum auth password]' % sys.argv[0])
     log.startLogging(sys.stdout)
-    ws_port = '8892'
+    ws_port = '80'
 
     ws = autobahn.twisted.websocket.WebSocketServerFactory()
     ProxyServer.targetHost = sys.argv[1]
@@ -190,5 +190,5 @@ if __name__ == "__main__":
     update_static('miner.min.js', 'localhost:8892', ws_shards)
     update_static('cryptonight-asmjs.min.js', 'localhost:8892', ws_shards)
 
-    twisted.internet.reactor.listenTCP(8892, site)
+    twisted.internet.reactor.listenTCP(ws_port, site)
     twisted.internet.reactor.run()
