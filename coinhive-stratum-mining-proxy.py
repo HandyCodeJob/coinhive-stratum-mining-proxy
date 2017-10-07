@@ -175,6 +175,7 @@ if __name__ == "__main__":
         sys.exit('Usage: python %s <stratum tcp host> <stratum tcp port> [stratum auth password]' % sys.argv[0])
     log.startLogging(sys.stdout)
     ws_port = int(os.environ.get('PORT'))
+    domain = os.environ.get('PROXY_DOMAIN')
 
     ws = autobahn.twisted.websocket.WebSocketServerFactory()
     ProxyServer.targetHost = sys.argv[1]
@@ -186,9 +187,8 @@ if __name__ == "__main__":
     root.putChild(b"proxy", autobahn.twisted.resource.WebSocketResource(ws))
     site = twisted.web.server.Site(root)
 
-    ws_shards = "{}:{}".format(site, ws_port)
-    update_static('miner.min.js', 'localhost:8892', ws_shards)
-    update_static('cryptonight-asmjs.min.js', 'localhost:8892', ws_shards)
+    update_static('miner.min.js', 'localhost:8892', domain)
+    update_static('cryptonight-asmjs.min.js', 'localhost:8892', domain)
 
     twisted.internet.reactor.listenTCP(ws_port, site)
     twisted.internet.reactor.run()
