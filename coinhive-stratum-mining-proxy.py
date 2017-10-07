@@ -46,7 +46,7 @@ def update_static(filename, match, replace):
     filedata = filedata.replace(match, replace)
 
     # Write the file out again
-    with open('static/' + filename, 'w') as f:
+    with open('static/miner/' + filename, 'w') as f:
         f.write(filedata)
 
 
