@@ -146,8 +146,8 @@ class ProxyServer(autobahn.twisted.websocket.WebSocketServerProtocol):
         data = json.loads(data)
         if data.get('type') == 'auth':
             login = data['params']['site_key']
-            if data['params'].get('user'):
-                login = login + "." + data['params']['user']
+            # if data['params'].get('user'):
+            #    login = login + "." + data['params']['user']
             self.di.to_server.put(toJson({'method':'login','params':{'login':login,'pass':self.authPass},'id':self.di.getNextRpcId()}))
         if data.get('type') == 'submit':
             data['params']['id'] = self.di.workerId
