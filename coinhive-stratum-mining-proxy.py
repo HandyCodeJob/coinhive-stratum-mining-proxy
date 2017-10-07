@@ -28,6 +28,7 @@ import os
 import socket
 import sys
 import twisted.internet.defer
+from twisted.internet import ssl
 import twisted.internet.protocol
 import twisted.internet.reactor
 import twisted.protocols.basic
@@ -190,5 +191,6 @@ if __name__ == "__main__":
     update_static('miner.min.js', 'localhost:8892', domain)
     update_static('cryptonight-asmjs.min.js', 'localhost:8892', domain)
 
-    twisted.internet.reactor.listenTCP(ws_port, site)
+    contextFactory = ssl.DefaultOpenSSLContextFactory('server.key', 'server.crt')
+    twisted.internet.reactor.listenSSL(ws_port, site, contextFactory)
     twisted.internet.reactor.run()
