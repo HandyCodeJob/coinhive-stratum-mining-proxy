@@ -1,0 +1,13 @@
+{
+  "AWSEBDockerrunVersion": "1",
+  "Image": {
+    "Name": "handycodejob/coinhive-stratum-mining-proxy",
+    "Update": "true"
+  },
+  "Ports": [
+    {
+      "ContainerPort": "8892"
+    }
+  ],
+  "Logging": "/var/log/nginx"
+}
