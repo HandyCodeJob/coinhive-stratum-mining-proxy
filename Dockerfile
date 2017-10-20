@@ -45,7 +45,6 @@ COPY requirements.txt /requirements.txt
 RUN pip install -v -r /requirements.txt && rm /requirements.txt
 
 # Expose HTTP/WebSocket port
-EXPOSE 8892
 EXPOSE 80
 
 # Set env vars
@@ -55,4 +54,5 @@ ENV STRATUM_PASS=TEST1:mikejackofalltrades@gmail.com
 
 # Launch the service
 ENTRYPOINT /coinhive-stratum-mining-proxy.py $STRATUM_POOL $STRATUM_PORT $STRATUM_PASS
+CMD ["nginx", "-g", "daemon on;"]
 # CMD python coinhive-stratum-mining-proxy.py $STRATUM_POOL $STRATUM_PORT $STRATUM_PASS
