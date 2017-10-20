@@ -23,7 +23,7 @@
 FROM alpine:3.6
 
 # Install dependencies
-RUN apk add --no-cache python python-dev openssl-dev gcc musl-dev git nginx && \
+RUN apk add --no-cache python python-dev openssl-dev gcc musl-dev git && \
     python -m ensurepip && \
     rm -r /usr/lib/python*/ensurepip && \
     pip install --upgrade pip setuptools && \
@@ -53,6 +53,6 @@ ENV STRATUM_PORT=2999
 ENV STRATUM_PASS=TEST1:mikejackofalltrades@gmail.com
 
 # Launch the service
+# CMD [nginx-debug, '-g', 'daemon off;']
 ENTRYPOINT /coinhive-stratum-mining-proxy.py $STRATUM_POOL $STRATUM_PORT $STRATUM_PASS
-CMD ["nginx", "-g", "daemon on;"]
 # CMD python coinhive-stratum-mining-proxy.py $STRATUM_POOL $STRATUM_PORT $STRATUM_PASS
