@@ -1,13 +1,56 @@
 {
-  "AWSEBDockerrunVersion": "1",
-  "Image": {
-    "Name": "handycodejob/coinhive-stratum-mining-proxy",
-    "Update": "true"
-  },
-  "Ports": [
+  "AWSEBDockerrunVersion": 2,
+  "volumes": [
     {
-      "ContainerPort": "8892"
-    }
+      "name": "coinhive-proxy",
+      "host": {
+        "sourcePath": "/var/app/current"
+      }
+    },
+    {
+      "name": "nginx-proxy-conf",
+      "host": {
+        "sourcePath": "/var/app/current/nginx/conf.d"
+      }
+    }  
   ],
-  "Logging": "/var/log/nginx"
+  "containerDefinitions": [
+    {
+      "name": "coinhive-proxy",
+      "image": "handycodejob/coinhive-stratum-mining-proxy",
+      "essential": true,
+      "memory": 128
+      ]
+    },
+    {
+      "name": "nginx-proxy",
+      "image": "nginx",
+      "essential": true,
+      "memory": 128,
+      "portMappings": [
+        {
+          "hostPort": 80,
+          "containerPort": 8892
+        }
+      ],
+      "links": [
+        "coinhive-proxy"
+      ],
+      "mountPoints": [
+        {
+          "sourceVolume": "coinhive-proxy",
+          "containerPath": "/var/app/current/static"
+        },
+        {
+          "sourceVolume": "nginx-proxy-conf",
+          "containerPath": "/etc/nginx/conf.d",
+          "readOnly": true
+        },
+        {
+          "sourceVolume": "awseb-logs-nginx-proxy",
+          "containerPath": "/var/log/nginx"
+        }
+      ]
+    }
+  ]
 }
