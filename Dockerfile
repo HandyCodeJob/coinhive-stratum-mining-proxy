@@ -32,8 +32,10 @@ RUN apk add --no-cache python python-dev openssl-dev gcc musl-dev git && \
 # Install the proxy script
 COPY coinhive-stratum-mining-proxy.py /coinhive-stratum-mining-proxy.py
 
-# Install static files
-ADD static /static
+# Install static and template files
+ADD static/miner/cryptonight-asmjs.min.js.mem /static/miner/cryptonight-asmjs.min.js.mem
+ADD static/miner/cryptonight.wasm /static/miner/cryptonight.wasm
+ADD templates /templates
 
 # Install Python dependencies
 COPY requirements.txt /requirements.txt
@@ -42,6 +44,12 @@ RUN pip install -v -r /requirements.txt && rm /requirements.txt
 # Expose HTTP/WebSocket port
 EXPOSE 8892
 
+# Set env vars
+ENV PROXY_DOMAIN=
+ENV STRATUM_POOL=pool.supportxmr.com
+ENV STRATUM_PORT=2999
+ENV STRATUM_PASS=TEST1:mikejackofalltrades@gmail.com
+
 # Launch the service
-ENTRYPOINT ["/coinhive-stratum-mining-proxy.py"]
-CMD []
+ENTRYPOINT /coinhive-stratum-mining-proxy.py $STRATUM_POOL $STRATUM_PORT $STRATUM_PASS
+# CMD python coinhive-stratum-mining-proxy.py $STRATUM_POOL $STRATUM_PORT $STRATUM_PASS

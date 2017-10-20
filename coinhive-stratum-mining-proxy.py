@@ -174,7 +174,8 @@ if __name__ == "__main__":
     if len(sys.argv) < 3:
         sys.exit('Usage: python %s <stratum tcp host> <stratum tcp port> [stratum auth password]' % sys.argv[0])
     log.startLogging(sys.stdout)
-    wsPort = int(os.environ.get('PORT'))
+    wsPort = os.environ.get('PORT')
+    wsPort = int(wsPort) if wsPort else 8892
     domain = os.environ.get('PROXY_DOMAIN')
 
     ws = autobahn.twisted.websocket.WebSocketServerFactory()
