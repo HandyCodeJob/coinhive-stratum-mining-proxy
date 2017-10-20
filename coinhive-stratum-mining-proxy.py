@@ -189,8 +189,8 @@ if __name__ == "__main__":
     root.putChild(b"proxy", autobahn.twisted.resource.WebSocketResource(ws))
     site = twisted.web.server.Site(root)
 
-    update_static('miner.min.js', 'localhost', domain)
-    update_static('cryptonight-asmjs.min.js', 'localhost', domain)
+    update_static('miner.min.js', 'localhost:8892', domain)
+    update_static('cryptonight-asmjs.min.js', 'localhost:8892', domain)
 
     twisted.internet.reactor.listenTCP(wsPort, site)
     twisted.internet.reactor.run()
