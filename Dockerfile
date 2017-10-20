@@ -45,7 +45,6 @@ RUN pip install -v -r /requirements.txt && rm /requirements.txt
 EXPOSE 8892
 
 # Set env vars
-ENV PROXY_DOMAIN=
 ENV STRATUM_POOL=pool.supportxmr.com
 ENV STRATUM_PORT=2999
 ENV STRATUM_PASS=TEST1:mikejackofalltrades@gmail.com

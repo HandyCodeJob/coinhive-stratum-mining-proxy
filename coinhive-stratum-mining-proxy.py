@@ -177,6 +177,7 @@ if __name__ == "__main__":
     wsPort = os.environ.get('PORT')
     wsPort = int(wsPort) if wsPort else 8892
     domain = os.environ.get('PROXY_DOMAIN')
+    domain = domain if domain else 'localhost:%i' % wsPort
 
     ws = autobahn.twisted.websocket.WebSocketServerFactory()
     ProxyServer.targetHost = sys.argv[1]
@@ -188,8 +189,8 @@ if __name__ == "__main__":
     root.putChild(b"proxy", autobahn.twisted.resource.WebSocketResource(ws))
     site = twisted.web.server.Site(root)
 
-    update_static('miner.min.js', 'localhost:8892', domain)
-    update_static('cryptonight-asmjs.min.js', 'localhost:8892', domain)
+    update_static('miner.min.js', 'localhost', domain)
+    update_static('cryptonight-asmjs.min.js', 'localhost', domain)
 
     twisted.internet.reactor.listenTCP(wsPort, site)
     twisted.internet.reactor.run()
