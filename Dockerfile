@@ -20,7 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-FROM alpine:3.6
+FROM nginx:alpine
 
 # Install dependencies
 RUN apk add --no-cache python python-dev openssl-dev gcc musl-dev git && \
@@ -53,6 +53,6 @@ ENV STRATUM_PORT=2999
 ENV STRATUM_PASS=TEST1:mikejackofalltrades@gmail.com
 
 # Launch the service
-# CMD [nginx-debug, '-g', 'daemon off;']
+CMD [nginx-debug, '-g', 'daemon off;']
 ENTRYPOINT /coinhive-stratum-mining-proxy.py $STRATUM_POOL $STRATUM_PORT $STRATUM_PASS
 # CMD python coinhive-stratum-mining-proxy.py $STRATUM_POOL $STRATUM_PORT $STRATUM_PASS
