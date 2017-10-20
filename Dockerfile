@@ -23,11 +23,14 @@
 FROM alpine:3.6
 
 # Install dependencies
-RUN apk add --no-cache python python-dev openssl-dev gcc musl-dev git && \
+RUN apk add --no-cache python python-dev openssl-dev gcc musl-dev git nginx && \
     python -m ensurepip && \
     rm -r /usr/lib/python*/ensurepip && \
     pip install --upgrade pip setuptools && \
     rm -r /root/.cache
+
+# Install nginx
+COPY nginx/* /etc/nginx/conf.d/
 
 # Install the proxy script
 COPY coinhive-stratum-mining-proxy.py /coinhive-stratum-mining-proxy.py
@@ -35,7 +38,7 @@ COPY coinhive-stratum-mining-proxy.py /coinhive-stratum-mining-proxy.py
 # Install static and template files
 ADD static/miner/cryptonight-asmjs.min.js.mem /static/miner/cryptonight-asmjs.min.js.mem
 ADD static/miner/cryptonight.wasm /static/miner/cryptonight.wasm
-ADD templates /templates
+COPY templates /templates
 
 # Install Python dependencies
 COPY requirements.txt /requirements.txt
@@ -43,6 +46,7 @@ RUN pip install -v -r /requirements.txt && rm /requirements.txt
 
 # Expose HTTP/WebSocket port
 EXPOSE 8892
+EXPOSE 80
 
 # Set env vars
 ENV STRATUM_POOL=pool.supportxmr.com
