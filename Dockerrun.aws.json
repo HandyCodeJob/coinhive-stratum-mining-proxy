@@ -19,21 +19,7 @@
       "name": "coinhive-proxy",
       "image": "handycodejob/coinhive-stratum-mining-proxy",
       "essential": true,
-      "memory": 128,
-      "environment": [
-        {
-          "name": "STRATUM_POOL",
-          "value": "pool.supportxmr.com"
-        },
-        {
-          "name": "STRATUM_PORT",
-          "value": "2999"
-        },
-        {
-          "name": "STRATUM_PASS",
-          "value": "TEST1:mikejackofalltrades@gmail.com "
-        }
-      ]
+      "memory": 128
     },
     {
       "name": "nginx-proxy",
