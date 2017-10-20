@@ -29,8 +29,9 @@ RUN apk add --no-cache python python-dev openssl-dev gcc musl-dev git && \
     pip install --upgrade pip setuptools && \
     rm -r /root/.cache
 
-# Install nginx
+# copy nginx config over
 COPY nginx/* /etc/nginx/conf.d/
+RUN rm /etc/nginx/conf.d/default.conf
 
 # Install the proxy script
 COPY coinhive-stratum-mining-proxy.py /coinhive-stratum-mining-proxy.py

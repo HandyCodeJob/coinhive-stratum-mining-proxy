@@ -6,13 +6,7 @@
       "host": {
         "sourcePath": "/var/app/current"
       }
-    },
-    {
-      "name": "nginx-proxy-conf",
-      "host": {
-        "sourcePath": "/var/app/current/nginx/conf.d"
-      }
-    }  
+    }
   ],
   "containerDefinitions": [
     {
@@ -20,36 +14,6 @@
       "image": "handycodejob/coinhive-stratum-mining-proxy",
       "essential": true,
       "memory": 128
-    },
-    {
-      "name": "nginx-proxy",
-      "image": "nginx",
-      "essential": true,
-      "memory": 128,
-      "portMappings": [
-        {
-          "hostPort": 80,
-          "containerPort": 80
-        }
-      ],
-      "links": [
-        "coinhive-proxy"
-      ],
-      "mountPoints": [
-        {
-          "sourceVolume": "coinhive-proxy",
-          "containerPath": "/var/app/current/static"
-        },
-        {
-          "sourceVolume": "nginx-proxy-conf",
-          "containerPath": "/etc/nginx/conf.d",
-          "readOnly": true
-        },
-        {
-          "sourceVolume": "awseb-logs-nginx-proxy",
-          "containerPath": "/var/log/nginx"
-        }
-      ]
     }
   ]
 }
